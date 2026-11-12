@@ -432,6 +432,7 @@ class UniFinderApp:
     # DISPLAY RESULTS
     # --------------------------------------------------
 
+    
     def display_results(self, universities):
 
         self.search_button.configure(
@@ -446,27 +447,23 @@ class UniFinderApp:
             )
 
             self.status_label.configure(
-                text="No universities found. Try another search."
+                text="No matching universities found."
+            )
+
+            messagebox.showinfo(
+                "No Universities Found",
+                "Sorry! No universities match your search.\n\n"
+                "Please try another university name or country."
             )
 
             return
 
         for university in universities:
 
-            name = university.get(
-                "name",
-                "Unknown"
-            )
+            name = university.get("name", "Unknown")
+            country = university.get("country", "Unknown")
 
-            country = university.get(
-                "country",
-                "Unknown"
-            )
-
-            websites = university.get(
-                "web_pages",
-                []
-            )
+            websites = university.get("web_pages", [])
 
             website = (
                 websites[0]
@@ -477,11 +474,7 @@ class UniFinderApp:
             self.results_table.insert(
                 "",
                 "end",
-                values=(
-                    name,
-                    country,
-                    website
-                )
+                values=(name, country, website)
             )
 
         total = len(universities)
@@ -491,8 +484,10 @@ class UniFinderApp:
         )
 
         self.status_label.configure(
-            text="Search completed successfully. Double-click a result to open its website."
+            text="Search completed successfully. "
+                "Double-click a result to open its website."
         )
+
 
     # --------------------------------------------------
     # ERROR HANDLING
