@@ -215,31 +215,31 @@ The following screenshots showcase the UniFinder interface, its university disco
 
 *University search results with country information and official website links.*
 
-### 3. Additional Interface View
+### 3. University Directory
 
 ![UniFinder screenshot 3](screenshots/ss3.png)
 
-### 4. Additional Interface View
+### 4. Destinations
 
 ![UniFinder screenshot 4](screenshots/ss4.png)
 
-### 5. Additional Interface View
+### 5. A Simple Way To Explore
 
 ![UniFinder screenshot 5](screenshots/ss5.png)
 
-### 6. Additional Interface View
+### 6. How It Works
 
 ![UniFinder screenshot 6](screenshots/ss6.png)
 
-### 7. Additional Interface View
+### 7. Make An Informed Decision
 
 ![UniFinder screenshot 7](screenshots/ss7.png)
 
-### 8. Additional Interface View
+### 8. Frequently asked questions
 
 ![UniFinder screenshot 8](screenshots/ss8.png)
 
-### 9. Additional Interface View
+### 9. CTA & Footer
 
 ![UniFinder screenshot 9](screenshots/ss9.png)
 
