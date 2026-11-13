@@ -1,5 +1,9 @@
 # UniFinder 🎓
 
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=600&size=22&duration=3000&pause=900&color=2F6B4F&center=true&vCenter=true&width=520&lines=Discover+universities+around+the+world;Explore+your+next+academic+destination;Find+your+place+with+UniFinder" alt="UniFinder typing animation">
+</p>
+
 **Discover universities around the world with ease.**
 
 UniFinder is a Python-based web application that allows users to search for universities by name or country. It retrieves live university information using the [Hipolabs Universities API](http://universities.hipolabs.com/) and presents the results through a clean, responsive web interface.
