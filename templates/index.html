@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080f1e">
+    <meta name="description" content="Discover universities around the world with UniFinder. Search by university name or country.">
+    <title>UniFinder — Discover Your Future</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+
+<body>
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <header class="navbar">
+        <a href="/" class="brand">
+            <span class="brand-icon">U</span>
+            <span>Uni<span class="brand-highlight">Finder</span></span>
+        </a>
+
+        <div class="nav-right">
+            <span class="status-dot"></span>
+            <span class="nav-status">Live university database</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="eyebrow">
+                <span class="eyebrow-line"></span>
+                YOUR GLOBAL EDUCATION DISCOVERY TOOL
+            </div>
+
+            <h1>
+                Discover universities.<br>
+                <span>Explore possibilities.</span>
+            </h1>
+
+            <p class="hero-description">
+                Your next academic destination is out there.
+                Search universities around the world and explore their official websites.
+            </p>
+
+            <div class="search-container">
+                <form id="searchForm">
+                    <div class="search-fields">
+                        <label class="input-group">
+                            <span class="input-icon">⌕</span>
+                            <span class="input-content">
+                                <span class="input-label">UNIVERSITY NAME</span>
+                                <input
+                                    type="text"
+                                    id="universityName"
+                                    placeholder="e.g. Oxford, Harvard..."
+                                    autocomplete="off"
+                                >
+                            </span>
+                        </label>
+
+                        <div class="field-divider"></div>
+
+                        <label class="input-group">
+                            <span class="input-icon">◎</span>
+                            <span class="input-content">
+                                <span class="input-label">COUNTRY</span>
+                                <input
+                                    type="text"
+                                    id="country"
+                                    placeholder="e.g. Pakistan, United Kingdom..."
+                                    autocomplete="off"
+                                >
+                            </span>
+                        </label>
+
+                        <button type="submit" id="searchButton">
+                            <span>Search universities</span>
+                            <span class="button-arrow">↗</span>
+                        </button>
+                    </div>
+                </form>
+
+                <div class="search-hint">
+                    <span>✦</span>
+                    Search by university name, country, or both.
+                </div>
+            </div>
+
+            <div class="quick-searches">
+                <span>TRY SEARCHING:</span>
+                <button class="quick-chip" data-country="Pakistan">Pakistan</button>
+                <button class="quick-chip" data-country="United Kingdom">United Kingdom</button>
+                <button class="quick-chip" data-country="United States">United States</button>
+            </div>
+        </section>
+
+        <section class="results-section" id="resultsSection">
+            <div class="results-heading">
+                <div>
+                    <span class="section-eyebrow">EXPLORE THE WORLD</span>
+                    <h2>University directory</h2>
+                </div>
+
+                <span class="result-count" id="resultCount">0 RESULTS</span>
+            </div>
+
+            <div id="results" class="results-grid">
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">⌕</div>
+                    <h3>Your next destination awaits.</h3>
+                    <p>Enter a university name or country above to discover universities.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <a href="/" class="footer-brand">UniFinder<span>.</span></a>
+        <p>Discover opportunities. Explore the world.</p>
+        <span class="footer-credit">Powered by Hipolabs Universities API</span>
+    </footer>
+</body>
+</html>
