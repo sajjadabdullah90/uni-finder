@@ -19,6 +19,7 @@
 </head>
 
 <body>
+    <div class="page-background" aria-hidden="true"></div>
     <div class="background-glow glow-one" aria-hidden="true"></div>
     <div class="background-glow glow-two" aria-hidden="true"></div>
 
@@ -35,101 +36,167 @@
     </header>
 
     <main>
-        <section class="hero">
-            <div class="eyebrow">
-                <span class="eyebrow-line"></span>
-                YOUR GLOBAL EDUCATION DISCOVERY TOOL
+      
+<section class="hero hero-split">
+
+    <div class="hero-copy">
+        <div class="eyebrow">
+            <span class="eyebrow-line"></span>
+            GLOBAL UNIVERSITY DISCOVERY
+        </div>
+
+        <h1>
+            Your future has a place.
+            <span>Find yours.</span>
+        </h1>
+
+        <p class="hero-description">
+            Discover universities around the world, explore their
+            websites, and take the next step in your academic journey.
+        </p>
+
+        <div class="hero-actions">
+            <a href="#searchSection" class="hero-cta">
+                Explore universities
+                <span>→</span>
+            </a>
+
+            <div class="hero-proof">
+                <span class="hero-proof-icon">◎</span>
+                <span>
+                    <strong>Global discovery</strong>
+                    <small>Universities worldwide</small>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <img
+            class="hero-campus-image"
+            src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1400&q=85"
+            alt="University campus architecture surrounded by greenery"
+        >
+
+        <div class="hero-image-overlay"></div>
+
+        <div class="hero-floating-card">
+            <div class="floating-card-icon">✿</div>
+            <div>
+                <strong>Your next chapter starts here.</strong>
+                <span>Explore universities across the globe</span>
+            </div>
+        </div>
+
+        <div class="hero-image-caption">
+            DREAM. EXPLORE. ACHIEVE.
+        </div>
+    </div>
+
+</section>
+
+
+<section class="search-section" id="searchSection">
+
+    <div class="search-container">
+
+        <div class="search-intro">
+            <div>
+                <span class="section-eyebrow">START EXPLORING</span>
+                <h2>Find your university.</h2>
+                <p>Search thousands of universities and discover where your future could take you.</p>
             </div>
 
-            <h1>
-                Discover universities.<br>
-                <span>Explore possibilities.</span>
-            </h1>
+            <div class="search-decoration" aria-hidden="true">
+                <span>U</span>
+            </div>
+        </div>
 
-            <p class="hero-description">
-                Your next academic destination is out there.
-                Search universities around the world and explore their official websites.
-            </p>
+        <form id="searchForm">
+            <div class="search-fields">
 
-            <div class="search-container">
-                <form id="searchForm">
-                    <div class="search-fields">
+                <label class="input-group" for="universityName">
+                    <span class="input-icon" aria-hidden="true">⌕</span>
 
-                        <label class="input-group" for="universityName">
-                            <span class="input-icon" aria-hidden="true">⌕</span>
+                    <span class="input-content">
+                        <span class="input-label">UNIVERSITY NAME</span>
+                        <input
+                            type="text"
+                            id="universityName"
+                            name="university"
+                            placeholder="e.g. Oxford, Harvard..."
+                            autocomplete="off"
+                        >
+                    </span>
+                </label>
 
-                            <span class="input-content">
-                                <span class="input-label">UNIVERSITY NAME</span>
-                                <input
-                                    type="text"
-                                    id="universityName"
-                                    name="university"
-                                    placeholder="e.g. Oxford, Harvard..."
-                                    autocomplete="off"
-                                >
-                            </span>
-                        </label>
+                <div class="field-divider" aria-hidden="true"></div>
 
-                        <div class="field-divider" aria-hidden="true"></div>
+                <label class="input-group" for="country">
+                    <span class="input-icon" aria-hidden="true">◎</span>
 
-                        <label class="input-group" for="country">
-                            <span class="input-icon" aria-hidden="true">◎</span>
+                    <span class="input-content">
+                        <span class="input-label">COUNTRY</span>
+                        <input
+                            type="text"
+                            id="country"
+                            name="country"
+                            placeholder="e.g. Pakistan, United Kingdom..."
+                            autocomplete="off"
+                        >
+                    </span>
+                </label>
 
-                            <span class="input-content">
-                                <span class="input-label">COUNTRY</span>
-                                <input
-                                    type="text"
-                                    id="country"
-                                    name="country"
-                                    placeholder="e.g. Pakistan, United Kingdom..."
-                                    autocomplete="off"
-                                >
-                            </span>
-                        </label>
+                <button type="submit" id="searchButton">
+                    <span>Search universities</span>
+                    <span class="button-arrow" aria-hidden="true">↗</span>
+                </button>
 
-                        <button type="submit" id="searchButton">
-                            <span>Search universities</span>
-                            <span class="button-arrow" aria-hidden="true">↗</span>
-                        </button>
-                    </div>
-                </form>
+            </div>
+        </form>
 
-                <div class="search-hint">
-                    <span aria-hidden="true">✦</span>
-                    Search by university name, country, or both.
-                </div>
+        <div class="search-bottom">
 
-                <div class="search-actions">
-                    <button type="button" id="clearButton" class="quick-chip">
-                        Clear search
-                    </button>
-                </div>
+            <div class="search-hint">
+                <span aria-hidden="true">✦</span>
+                Search by university name, country, or both.
             </div>
 
-            <div class="quick-searches">
-                <span>TRY SEARCHING:</span>
+            <button type="button" id="clearButton" class="clear-search-button">
+                Clear search <span aria-hidden="true">↺</span>
+            </button>
 
-                <button type="button" class="quick-chip" data-country="Pakistan">
-                    Pakistan
-                </button>
+        </div>
 
-                <button type="button" class="quick-chip" data-country="United Kingdom">
-                    United Kingdom
-                </button>
+        <div class="quick-searches">
+            <span class="quick-search-label">POPULAR DESTINATIONS</span>
 
-                <button type="button" class="quick-chip" data-country="United States">
-                    United States
-                </button>
+            <button type="button" class="quick-chip" data-country="Pakistan">
+                Pakistan <span>↗</span>
+            </button>
 
-                <button type="button" class="quick-chip" data-country="Canada">
-                    Canada
-                </button>
+            <button type="button" class="quick-chip" data-country="United Kingdom">
+                United Kingdom <span>↗</span>
+            </button>
 
-                <button type="button" class="quick-chip" data-country="Australia">
-                    Australia
-                </button>
-            </div>
-        </section>
+            <button type="button" class="quick-chip" data-country="United States">
+                United States <span>↗</span>
+            </button>
+
+            <button type="button" class="quick-chip" data-country="Canada">
+                Canada <span>↗</span>
+            </button>
+
+            <button type="button" class="quick-chip" data-country="Australia">
+                Australia <span>↗</span>
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+
 
         <section class="results-section" id="resultsSection">
             <div class="results-heading">
