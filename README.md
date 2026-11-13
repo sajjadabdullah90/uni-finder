@@ -84,6 +84,17 @@ uni-finder/
 ├── templates/
 │   └── index.html               # Main HTML webpage
 │
+├── screenshots/
+│   ├── ss1.png                  # Application overview
+│   ├── ss2.png                  # University search results
+│   ├── ss3.png                  # Screenshot 3
+│   ├── ss4.png                  # Screenshot 4
+│   ├── ss5.png                  # Screenshot 5
+│   ├── ss6.png                  # Screenshot 6
+│   ├── ss7.png                  # Screenshot 7
+│   ├── ss8.png                  # Screenshot 8
+│   └── ss9.png                  # Screenshot 9
+│
 └── static/
     ├── css/
     │   └── style.css            # Application styling
@@ -140,7 +151,7 @@ source .venv/Scripts/activate
 **Windows (Command Prompt):**
 
 ```cmd
-.venv\Scripts\activate
+.venv\\Scripts\\activate
 ```
 
 **Linux / macOS:**
@@ -188,26 +199,49 @@ You can also use the quick-search options to explore universities in selected co
 
 ---
 
-## 📊 Sample Output
+## 🖼️ Application Screenshots
 
-For example, searching for universities in Pakistan:
+The following screenshots showcase the UniFinder interface, its university discovery experience, and the additional information sections available throughout the application.
 
-**Search Input:**
+### 1. Application Overview
 
-```text
-Country: Pakistan
-University Name: (empty)
-```
+![UniFinder application overview](screenshots/ss1.png)
 
-**Example Results:**
+*The main UniFinder interface and overall visual design.*
 
-The following screenshot demonstrates UniFinder searching for universities in Pakistan and displaying the matching results.
+### 2. University Search Results
 
-![UniFinder - Overall Design](screenshots/ss1.png)
-![UniFinder - University Search Results](screenshots/ss2.png)
-*Screenshot of the UniFinder application displaying university search results retrieved from the Hipolabs Universities API.*
+![UniFinder university search results](screenshots/ss2.png)
 
-*Note: The above is an illustrative sample of university records. Actual results depend on the live API response and may vary.*
+*University search results with country information and official website links.*
+
+### 3. Additional Interface View
+
+![UniFinder screenshot 3](screenshots/ss3.png)
+
+### 4. Additional Interface View
+
+![UniFinder screenshot 4](screenshots/ss4.png)
+
+### 5. Additional Interface View
+
+![UniFinder screenshot 5](screenshots/ss5.png)
+
+### 6. Additional Interface View
+
+![UniFinder screenshot 6](screenshots/ss6.png)
+
+### 7. Additional Interface View
+
+![UniFinder screenshot 7](screenshots/ss7.png)
+
+### 8. Additional Interface View
+
+![UniFinder screenshot 8](screenshots/ss8.png)
+
+### 9. Additional Interface View
+
+![UniFinder screenshot 9](screenshots/ss9.png)
 
 ---
 
