@@ -1,0 +1,33 @@
+
+[
+    {
+        "name": "National University of Sciences and Technology",
+        "country": "Pakistan",
+        "domains": ["nust.edu.pk"],
+        "web_pages": ["https://nust.edu.pk/"]
+    },
+    {
+        "name": "Quaid-i-Azam University",
+        "country": "Pakistan",
+        "domains": ["qau.edu.pk"],
+        "web_pages": ["https://qau.edu.pk/"]
+    },
+    {
+        "name": "University of the Punjab",
+        "country": "Pakistan",
+        "domains": ["pu.edu.pk"],
+        "web_pages": ["https://pu.edu.pk/"]
+    },
+    {
+        "name": "University of Karachi",
+        "country": "Pakistan",
+        "domains": ["uok.edu.pk"],
+        "web_pages": ["https://uok.edu.pk/"]
+    },
+    {
+        "name": "Lahore University of Management Sciences",
+        "country": "Pakistan",
+        "domains": ["lums.edu.pk"],
+        "web_pages": ["https://lums.edu.pk/"]
+    }
+]
