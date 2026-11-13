@@ -201,37 +201,11 @@ University Name: (empty)
 
 **Example Results:**
 
-```text
-Search Results
---------------------------------------------------
+The following screenshot demonstrates UniFinder searching for universities in Pakistan and displaying the matching results.
 
-1. National University of Sciences and Technology
-   Country: Pakistan
-   Domain: nust.edu.pk
-   Website: https://nust.edu.pk/
-
-2. Quaid-i-Azam University
-   Country: Pakistan
-   Domain: qau.edu.pk
-   Website: https://qau.edu.pk/
-
-3. University of the Punjab
-   Country: Pakistan
-   Domain: pu.edu.pk
-   Website: https://pu.edu.pk/
-
-4. University of Karachi
-   Country: Pakistan
-   Domain: uok.edu.pk
-   Website: https://uok.edu.pk/
-
-5. Lahore University of Management Sciences
-   Country: Pakistan
-   Domain: lums.edu.pk
-   Website: https://lums.edu.pk/
-
---------------------------------------------------
-```
+![UniFinder - Overall Design](screenshots/ss1.png)
+![UniFinder - University Search Results](screenshots/ss2.png)
+*Screenshot of the UniFinder application displaying university search results retrieved from the Hipolabs Universities API.*
 
 *Note: The above is an illustrative sample of university records. Actual results depend on the live API response and may vary.*
 
