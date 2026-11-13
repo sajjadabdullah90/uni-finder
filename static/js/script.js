@@ -6,12 +6,21 @@ const searchButton = document.getElementById("searchButton");
 const clearButton = document.getElementById("clearButton");
 const resultsContainer = document.getElementById("results");
 const resultCount = document.getElementById("resultCount");
+const resultsSection = document.getElementById("resultsSection");
+const searchSection = document.getElementById("searchSection");
 
 let activeController = null;
 let lastSearch = { name: "", country: "" };
 
 function updateResultCount(value) {
     resultCount.textContent = value;
+}
+
+function scrollToSection(section) {
+    section?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
 }
 
 function showMessage(title, description, type = "empty", retry = false) {
@@ -65,7 +74,7 @@ function showLoading() {
     heading.textContent = "Searching universities...";
 
     const paragraph = document.createElement("p");
-    paragraph.textContent = "Connecting to the university database.";
+    paragraph.textContent = "Finding universities that match your search.";
 
     state.append(spinner, heading, paragraph);
     resultsContainer.appendChild(state);
@@ -76,8 +85,15 @@ function showLoading() {
 
 function setSearching(isSearching) {
     searchButton.disabled = isSearching;
-    searchButton.querySelector("span:first-child").textContent =
-        isSearching ? "Searching..." : "Search universities";
+    searchButton.setAttribute("aria-busy", String(isSearching));
+
+    const label = searchButton.querySelector("span:first-child");
+
+    if (label) {
+        label.textContent = isSearching
+            ? "Searching..."
+            : "Search universities";
+    }
 
     resultsContainer.setAttribute("aria-busy", String(isSearching));
 }
@@ -144,7 +160,10 @@ function createUniversityCard(university, index) {
         link.href = website;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
-        link.setAttribute("aria-label", `Visit official website of ${name.textContent}`);
+        link.setAttribute(
+            "aria-label",
+            `Visit official website of ${name.textContent}`
+        );
 
         const label = document.createElement("span");
         label.textContent = "Visit official website";
@@ -170,15 +189,14 @@ function displayResults(universities) {
         );
 
         updateResultCount("0 RESULTS");
+        scrollToSection(resultsSection);
         return;
     }
 
     const fragment = document.createDocumentFragment();
 
     universities.forEach((university, index) => {
-        fragment.appendChild(
-            createUniversityCard(university, index)
-        );
+        fragment.appendChild(createUniversityCard(university, index));
     });
 
     resultsContainer.appendChild(fragment);
@@ -187,10 +205,7 @@ function displayResults(universities) {
         `${universities.length.toLocaleString()} RESULTS`
     );
 
-    document.getElementById("resultsSection").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
+    scrollToSection(resultsSection);
 }
 
 async function searchUniversities(name, country) {
@@ -232,7 +247,9 @@ async function searchUniversities(name, country) {
         }
 
         if (!Array.isArray(data.results)) {
-            throw new Error("Unexpected data received from the university database.");
+            throw new Error(
+                "Unexpected data received from the university database."
+            );
         }
 
         displayResults(data.results);
@@ -252,6 +269,7 @@ async function searchUniversities(name, country) {
         );
 
         updateResultCount("ERROR");
+        scrollToSection(resultsSection);
 
     } finally {
         if (activeController === controller) {
@@ -261,6 +279,7 @@ async function searchUniversities(name, country) {
     }
 }
 
+// Main search form
 searchForm.addEventListener("submit", event => {
     event.preventDefault();
 
@@ -270,7 +289,7 @@ searchForm.addEventListener("submit", event => {
     if (!name && !country) {
         showMessage(
             "Let's start exploring.",
-            "Enter a university name or country to begin."
+            "Enter a university name or select a country to begin."
         );
 
         updateResultCount("0 RESULTS");
@@ -281,6 +300,7 @@ searchForm.addEventListener("submit", event => {
     searchUniversities(name, country);
 });
 
+// Quick country search chips
 document.querySelectorAll(".quick-chip[data-country]").forEach(button => {
     button.addEventListener("click", () => {
         const country = button.dataset.country;
@@ -292,6 +312,32 @@ document.querySelectorAll(".quick-chip[data-country]").forEach(button => {
     });
 });
 
+// Destination cards
+const destinationsSection = document.getElementById("destinations");
+
+destinationsSection?.addEventListener("click", event => {
+    const trigger = event.target.closest("[data-country]");
+
+    if (!trigger || !destinationsSection.contains(trigger)) {
+        return;
+    }
+
+    const country = trigger.dataset.country;
+
+    if (!country) return;
+
+    // Prevent the card's placeholder anchor from navigating separately.
+    event.preventDefault();
+
+    universityNameInput.value = "";
+    countryInput.value = country;
+
+    scrollToSection(searchSection);
+
+    searchUniversities("", country);
+});
+
+// Clear search
 clearButton.addEventListener("click", () => {
     if (activeController) {
         activeController.abort();
@@ -309,7 +355,5 @@ clearButton.addEventListener("click", () => {
     );
 
     updateResultCount("0 RESULTS");
-
     universityNameInput.focus();
 });
-
