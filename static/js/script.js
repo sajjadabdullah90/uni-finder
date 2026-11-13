@@ -3,10 +3,18 @@ const searchForm = document.getElementById("searchForm");
 const universityNameInput = document.getElementById("universityName");
 const countryInput = document.getElementById("country");
 const searchButton = document.getElementById("searchButton");
+const clearButton = document.getElementById("clearButton");
 const resultsContainer = document.getElementById("results");
 const resultCount = document.getElementById("resultCount");
 
-function showMessage(title, description, type = "empty") {
+let activeController = null;
+let lastSearch = { name: "", country: "" };
+
+function updateResultCount(value) {
+    resultCount.textContent = value;
+}
+
+function showMessage(title, description, type = "empty", retry = false) {
     resultsContainer.replaceChildren();
 
     const state = document.createElement("div");
@@ -27,6 +35,20 @@ function showMessage(title, description, type = "empty") {
     }
 
     state.append(icon, heading, paragraph);
+
+    if (retry) {
+        const retryButton = document.createElement("button");
+        retryButton.type = "button";
+        retryButton.className = "quick-chip";
+        retryButton.textContent = "Try again";
+
+        retryButton.addEventListener("click", () => {
+            searchUniversities(lastSearch.name, lastSearch.country);
+        });
+
+        state.appendChild(retryButton);
+    }
+
     resultsContainer.appendChild(state);
 }
 
@@ -43,12 +65,21 @@ function showLoading() {
     heading.textContent = "Searching universities...";
 
     const paragraph = document.createElement("p");
-    paragraph.textContent = "Connecting to the live university database.";
+    paragraph.textContent = "Connecting to the university database.";
 
     state.append(spinner, heading, paragraph);
     resultsContainer.appendChild(state);
 
-    resultCount.textContent = "SEARCHING...";
+    resultsContainer.setAttribute("aria-busy", "true");
+    updateResultCount("SEARCHING...");
+}
+
+function setSearching(isSearching) {
+    searchButton.disabled = isSearching;
+    searchButton.querySelector("span:first-child").textContent =
+        isSearching ? "Searching..." : "Search universities";
+
+    resultsContainer.setAttribute("aria-busy", String(isSearching));
 }
 
 function getInitials(name) {
@@ -82,6 +113,7 @@ function createUniversityCard(university, index) {
     name.textContent = university.name || "Unnamed university";
 
     const domain = document.createElement("p");
+
     const domains = Array.isArray(university.domains)
         ? university.domains
         : [];
@@ -90,38 +122,39 @@ function createUniversityCard(university, index) {
         ? domains.join(", ")
         : "Official website information unavailable";
 
+    card.append(top, name, domain);
+
     const websites = Array.isArray(university.web_pages)
         ? university.web_pages
         : [];
 
-    card.append(top, name, domain);
-
-    if (websites.length) {
-        const website = websites.find(url => {
-            try {
-                const parsed = new URL(url);
-                return ["http:", "https:"].includes(parsed.protocol);
-            } catch {
-                return false;
-            }
-        });
-
-        if (website) {
-            const link = document.createElement("a");
-            link.className = "visit-link";
-            link.href = website;
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
-
-            const label = document.createElement("span");
-            label.textContent = "Visit official website";
-
-            const arrow = document.createElement("span");
-            arrow.textContent = "↗";
-
-            link.append(label, arrow);
-            card.appendChild(link);
+    const website = websites.find(url => {
+        try {
+            const parsed = new URL(url);
+            return ["http:", "https:"].includes(parsed.protocol);
+        } catch {
+            return false;
         }
+    });
+
+    if (website) {
+        const link = document.createElement("a");
+
+        link.className = "visit-link";
+        link.href = website;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.setAttribute("aria-label", `Visit official website of ${name.textContent}`);
+
+        const label = document.createElement("span");
+        label.textContent = "Visit official website";
+
+        const arrow = document.createElement("span");
+        arrow.textContent = "↗";
+        arrow.setAttribute("aria-hidden", "true");
+
+        link.append(label, arrow);
+        card.appendChild(link);
     }
 
     return card;
@@ -130,13 +163,13 @@ function createUniversityCard(university, index) {
 function displayResults(universities) {
     resultsContainer.replaceChildren();
 
-    if (!universities.length) {
+    if (!Array.isArray(universities) || universities.length === 0) {
         showMessage(
             "No universities found.",
-            "Try another university name or country."
+            "Try another university name or country. You can also check your spelling."
         );
 
-        resultCount.textContent = "0 RESULTS";
+        updateResultCount("0 RESULTS");
         return;
     }
 
@@ -149,8 +182,10 @@ function displayResults(universities) {
     });
 
     resultsContainer.appendChild(fragment);
-    resultCount.textContent =
-        `${universities.length.toLocaleString()} RESULTS`;
+
+    updateResultCount(
+        `${universities.length.toLocaleString()} RESULTS`
+    );
 
     document.getElementById("resultsSection").scrollIntoView({
         behavior: "smooth",
@@ -159,44 +194,70 @@ function displayResults(universities) {
 }
 
 async function searchUniversities(name, country) {
+    lastSearch = { name, country };
+
+    if (activeController) {
+        activeController.abort();
+    }
+
+    const controller = new AbortController();
+    activeController = controller;
+
     const params = new URLSearchParams();
 
     if (name) params.set("name", name);
     if (country) params.set("country", country);
 
-    searchButton.disabled = true;
-    searchButton.querySelector("span:first-child").textContent = "Searching...";
-
+    setSearching(true);
     showLoading();
 
     try {
         const response = await fetch(
-            `/api/universities?${params.toString()}`
+            `/api/universities?${params.toString()}`,
+            { signal: controller.signal }
         );
 
-        const data = await response.json();
+        let data;
 
-        if (!response.ok) {
-            throw new Error(data.error || "Something went wrong.");
+        try {
+            data = await response.json();
+        } catch {
+            throw new Error("The server returned an invalid response.");
         }
 
-        displayResults(data.results || []);
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Unable to retrieve university information."
+            );
+        }
+
+        if (!Array.isArray(data.results)) {
+            throw new Error("Unexpected data received from the university database.");
+        }
+
+        displayResults(data.results);
 
     } catch (error) {
+        if (error.name === "AbortError") {
+            return;
+        }
+
         console.error("Search error:", error);
 
         showMessage(
-            "Something went wrong.",
-            error.message || "Unable to connect to the university database.",
-            "error"
+            "Unable to complete your search.",
+            error.message || "Please check your connection and try again.",
+            "error",
+            true
         );
 
-        resultCount.textContent = "ERROR";
+        updateResultCount("ERROR");
 
     } finally {
-        searchButton.disabled = false;
-        searchButton.querySelector("span:first-child").textContent =
-            "Search universities";
+        if (activeController === controller) {
+            activeController = null;
+            setSearching(false);
+        }
     }
 }
 
@@ -211,18 +272,44 @@ searchForm.addEventListener("submit", event => {
             "Let's start exploring.",
             "Enter a university name or country to begin."
         );
-        resultCount.textContent = "0 RESULTS";
+
+        updateResultCount("0 RESULTS");
+        universityNameInput.focus();
         return;
     }
 
     searchUniversities(name, country);
 });
 
-document.querySelectorAll(".quick-chip").forEach(button => {
+document.querySelectorAll(".quick-chip[data-country]").forEach(button => {
     button.addEventListener("click", () => {
-        countryInput.value = button.dataset.country;
-        universityNameInput.value = "";
+        const country = button.dataset.country;
 
-        searchUniversities("", button.dataset.country);
+        universityNameInput.value = "";
+        countryInput.value = country;
+
+        searchUniversities("", country);
     });
 });
+
+clearButton.addEventListener("click", () => {
+    if (activeController) {
+        activeController.abort();
+        activeController = null;
+    }
+
+    universityNameInput.value = "";
+    countryInput.value = "";
+
+    setSearching(false);
+
+    showMessage(
+        "Your next destination awaits.",
+        "Enter a university name or country above to discover universities."
+    );
+
+    updateResultCount("0 RESULTS");
+
+    universityNameInput.focus();
+});
+

@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#080f1e">
+    <meta name="theme-color" content="#F7F7F2">
     <meta name="description" content="Discover universities around the world with UniFinder. Search by university name or country.">
+
     <title>UniFinder — Discover Your Future</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -17,18 +19,18 @@
 </head>
 
 <body>
-    <div class="background-glow glow-one"></div>
-    <div class="background-glow glow-two"></div>
+    <div class="background-glow glow-one" aria-hidden="true"></div>
+    <div class="background-glow glow-two" aria-hidden="true"></div>
 
     <header class="navbar">
-        <a href="/" class="brand">
+        <a href="/" class="brand" aria-label="UniFinder homepage">
             <span class="brand-icon">U</span>
             <span>Uni<span class="brand-highlight">Finder</span></span>
         </a>
 
-        <div class="nav-right">
-            <span class="status-dot"></span>
-            <span class="nav-status">Live university database</span>
+        <div class="nav-right" aria-label="University database status">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="nav-status">University database</span>
         </div>
     </header>
 
@@ -52,28 +54,33 @@
             <div class="search-container">
                 <form id="searchForm">
                     <div class="search-fields">
-                        <label class="input-group">
-                            <span class="input-icon">⌕</span>
+
+                        <label class="input-group" for="universityName">
+                            <span class="input-icon" aria-hidden="true">⌕</span>
+
                             <span class="input-content">
                                 <span class="input-label">UNIVERSITY NAME</span>
                                 <input
                                     type="text"
                                     id="universityName"
+                                    name="university"
                                     placeholder="e.g. Oxford, Harvard..."
                                     autocomplete="off"
                                 >
                             </span>
                         </label>
 
-                        <div class="field-divider"></div>
+                        <div class="field-divider" aria-hidden="true"></div>
 
-                        <label class="input-group">
-                            <span class="input-icon">◎</span>
+                        <label class="input-group" for="country">
+                            <span class="input-icon" aria-hidden="true">◎</span>
+
                             <span class="input-content">
                                 <span class="input-label">COUNTRY</span>
                                 <input
                                     type="text"
                                     id="country"
+                                    name="country"
                                     placeholder="e.g. Pakistan, United Kingdom..."
                                     autocomplete="off"
                                 >
@@ -82,22 +89,45 @@
 
                         <button type="submit" id="searchButton">
                             <span>Search universities</span>
-                            <span class="button-arrow">↗</span>
+                            <span class="button-arrow" aria-hidden="true">↗</span>
                         </button>
                     </div>
                 </form>
 
                 <div class="search-hint">
-                    <span>✦</span>
+                    <span aria-hidden="true">✦</span>
                     Search by university name, country, or both.
+                </div>
+
+                <div class="search-actions">
+                    <button type="button" id="clearButton" class="quick-chip">
+                        Clear search
+                    </button>
                 </div>
             </div>
 
             <div class="quick-searches">
                 <span>TRY SEARCHING:</span>
-                <button class="quick-chip" data-country="Pakistan">Pakistan</button>
-                <button class="quick-chip" data-country="United Kingdom">United Kingdom</button>
-                <button class="quick-chip" data-country="United States">United States</button>
+
+                <button type="button" class="quick-chip" data-country="Pakistan">
+                    Pakistan
+                </button>
+
+                <button type="button" class="quick-chip" data-country="United Kingdom">
+                    United Kingdom
+                </button>
+
+                <button type="button" class="quick-chip" data-country="United States">
+                    United States
+                </button>
+
+                <button type="button" class="quick-chip" data-country="Canada">
+                    Canada
+                </button>
+
+                <button type="button" class="quick-chip" data-country="Australia">
+                    Australia
+                </button>
             </div>
         </section>
 
@@ -108,12 +138,24 @@
                     <h2>University directory</h2>
                 </div>
 
-                <span class="result-count" id="resultCount">0 RESULTS</span>
+                <span
+                    class="result-count"
+                    id="resultCount"
+                    aria-live="polite"
+                    aria-atomic="true"
+                >
+                    0 RESULTS
+                </span>
             </div>
 
-            <div id="results" class="results-grid">
+            <div
+                id="results"
+                class="results-grid"
+                aria-live="polite"
+                aria-busy="false"
+            >
                 <div class="empty-state" id="emptyState">
-                    <div class="empty-icon">⌕</div>
+                    <div class="empty-icon" aria-hidden="true">⌕</div>
                     <h3>Your next destination awaits.</h3>
                     <p>Enter a university name or country above to discover universities.</p>
                 </div>
@@ -123,8 +165,12 @@
 
     <footer class="footer">
         <a href="/" class="footer-brand">UniFinder<span>.</span></a>
+
         <p>Discover opportunities. Explore the world.</p>
-        <span class="footer-credit">Powered by Hipolabs Universities API</span>
+
+        <span class="footer-credit">
+            Powered by Hipolabs Universities API
+        </span>
     </footer>
 </body>
 </html>
